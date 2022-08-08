@@ -2,6 +2,6 @@
 
 all:
 	javac DeSerial.java
-	javac -cp psemf.jar Serialme.java
+	javac -cp . Serialme.java
 	mkdir -p ser/
-	java -cp psemf.jar:. Serialme
+	java -cp . Serialme
