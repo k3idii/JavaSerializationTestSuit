@@ -10,6 +10,9 @@ import java.io.ObjectOutputStream;
 import java.util.Base64;
 
 import java.io.Serializable; 
+import java.io.Externalizable;
+import java.io.ObjectOutput;
+import java.io.ObjectInput;
 
 import javax.management.MalformedObjectNameException;
 
@@ -32,7 +35,34 @@ class BB extends AA{
     public BB(int i, int j) {super(i); this.BBfield = j;  } 
 } 
 
+class EX implements Externalizable {
 
+  private static final long serialVersionUID = 31337000L;
+  private String name;
+  private int code;
+  private AA obj1;
+  
+  public EX(){  obj1=new AA(123); } 
+  public EX(String a, int b){ name=a; code=b; obj1=new AA(123); }
+  
+  @Override
+  public void writeExternal(ObjectOutput out) throws IOException {
+      out.writeUTF(name);
+      out.writeInt(code);
+      out.writeObject(obj1);
+      System.out.println("CUSTOM WRITER END");
+  }
+
+  @Override
+  public void readExternal(ObjectInput in) 
+    throws IOException, ClassNotFoundException {
+      this.name = in.readUTF();
+      this.code = in.readInt();
+      this.obj1 = (AA)in.readObject();
+      System.out.println("CUSTOM READER END");
+      System.out.println("Value=" + obj1.obj);
+  }
+}
 
 class Serialme {
 
@@ -59,22 +89,22 @@ class Serialme {
     int i;
 
     serialize_to_file(
-      "ser/str_test123.bin", 
+      "serial/str_test123.bin", 
       new String("test123")
     );
     
     serialize_to_file(
-      "ser/int_99.bin",
+      "serial/int_99.bin",
       99
     ); // new Integer()
     
     serialize_to_file(
-      "ser/bytea_arr.bin",   
+      "serial/bytea_arr.bin",   
       (new String("test123")).getBytes()
     );
 
     serialize_to_file(
-      "ser/inh_obj.bin", 
+      "serial/inh_obj.bin", 
       new BB(0xaaaa,0xbbbb) 
     );
 
@@ -82,17 +112,22 @@ class Serialme {
     for (i=0;i<10;i++){ objArr[i] = new AA(0x100 + i); }
 
     serialize_to_file(
-      "ser/arr_of_obj.bin", 
+      "serial/arr_of_obj.bin", 
       new BOX(objArr) 
     );
 
     EnumStuff tmp1 = EnumStuff.VALUE2;
     serialize_to_file(
-      "ser/enum.bin",
+      "serial/enum.bin",
       new BOX(tmp1)
     );
 
 
+    EX tmp2 = new EX("foo", 123);
+    serialize_to_file(
+      "serial/obj_external.bin",
+      tmp2
+    );
 
 
   }
