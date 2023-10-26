@@ -18,7 +18,7 @@ test: ser
 
 untest: unser
 	@echo ">> MAKE UNSERIAL TEST"
-	echo 'find serial/ | grep bin | while read FILENAME ; do echo " **** Unserialize @{FILENAME}"; java DeSerial @{FILENAME}; done' | tr "@" "$$" | bash
+	echo 'find serial/ | grep bin | while read FILENAME ; do echo " >>> Unserialize @{FILENAME}"; java DeSerial @{FILENAME}; echo "<<< end "; done' | tr "@" "$$" | bash
 
 
 clean:
