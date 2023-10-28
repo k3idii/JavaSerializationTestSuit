@@ -54,19 +54,21 @@ class EX implements Externalizable {
   
   @Override
   public void writeExternal(ObjectOutput out) throws IOException {
+      System.out.println("> CUSTOM WRITER START");
       out.writeUTF(name);
       out.writeInt(code);
       out.writeObject(obj1);
-      System.out.println("CUSTOM WRITER END");
+      System.out.println("< CUSTOM WRITER END");
   }
 
   @Override
   public void readExternal(ObjectInput in) 
     throws IOException, ClassNotFoundException {
+      System.out.println("> CUSTOM READER START");
       this.name = in.readUTF();
       this.code = in.readInt();
       this.obj1 = (C002Base)in.readObject();
-      System.out.println("CUSTOM READER END");
+      System.out.println("< CUSTOM READER END");
       System.out.println("Value=" + obj1.C002objField2);
   }
 }
