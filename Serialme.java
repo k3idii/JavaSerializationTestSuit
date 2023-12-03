@@ -19,35 +19,35 @@ import javax.management.MalformedObjectNameException;
 
 // class that serves as container
 class C001 implements Serializable {
-  Object C001field1;
+  public Object C001field1;
   public C001(Object x){ 
     this.C001field1 = x ; 
   }
 }
 
 class C002Base implements Serializable { 
-    int C002intField1; 
-    Object C002objField2;
-    public C002Base(int i){ 
-      this.C002intField1 = i; 
-      this.C002objField2 = new String("stringFieldValue123");
-    } 
+  public int C002intField1; 
+  public Object C002objField2;
+  public C002Base(int i){ 
+    this.C002intField1 = i; 
+    this.C002objField2 = new String("stringFieldValue123");
+  } 
 } 
 
 class C003Child extends C002Base{ 
-    int C003intField1; 
-    public C003Child(int i, int j) {
-      super(i); 
-      this.C003intField1 = j;  
-    } 
+  public int C003intField1; 
+  public C003Child(int i, int j) {
+    super(i); 
+    this.C003intField1 = j;  
+  } 
 } 
 
 class EX implements Externalizable {
 
-  private static final long serialVersionUID = 31337000L;
-  private String name;
-  private int code;
-  private C002Base obj1;
+  public static final long serialVersionUID = 31337000L;
+  public String name;
+  public int code;
+  public C002Base obj1;
   
   public EX(){  obj1=new C002Base(123); } 
   public EX(String a, int b){ name=a; code=b; obj1=new C002Base(123); }
@@ -58,7 +58,7 @@ class EX implements Externalizable {
       out.writeUTF(name);
       out.writeInt(code);
       out.writeObject(obj1);
-      System.out.println("< CUSTOM WRITER END");
+      System.out.println("< dCUSTOM WRITER END");
   }
 
   @Override
@@ -72,6 +72,27 @@ class EX implements Externalizable {
       System.out.println("Value=" + obj1.C002objField2);
   }
 }
+
+// multiple properties
+class C004 implements Serializable {
+  public int C04_f1;
+  public int C04_f2;
+  public int C04_f3;
+  public int C04_f4;
+  public C001 C04_o1;
+  public C001 C04_o2;
+  public C001 C04_o3;
+  public C004(){
+    this.C04_f1=0x1111;
+    this.C04_f2=0x2222;
+    this.C04_f3=0x3333;
+    this.C04_f4=0x4444;
+    this.C04_o1 = new C001("aaaa");
+    this.C04_o2 = new C001("bbbb");
+    this.C04_o3 = new C001("cccc");
+  }  
+}
+
 
 class Serialme {
 
@@ -143,6 +164,10 @@ class Serialme {
       "serial/obj_exception.bin",
       ex1
     );
+
+    Object o4 = new C004();
+    serialize_to_file("serial/obj_multiprop.bin", o4);
+
 
   }
 }
