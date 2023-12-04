@@ -11,16 +11,21 @@ unser:
 	@echo ">> MAKE UNSERIAL"
 	javac DeSerial.java 
 
+unserThis:
+	@echo ">> MAKE UNSERIAL"
+	javac DeSerialThis.java 
+
+
 test: ser
-	@echo ">> MAKE SERIAL TEST"
+	@echo " >> MAKE SERIAL TEST "
 	mkdir -p serial 
 	java -cp . Serialme 
 
 untest: unser
-	@echo ">> MAKE UNSERIAL TEST"
-	echo 'find serial/ | grep bin | while read FILENAME ; do echo " >>> Unserialize @{FILENAME}"; java DeSerial @{FILENAME}; echo "<<< end "; echo " --- --- ";  done' | tr "@" "$$" | bash
+	@echo " >> MAKE UNSERIAL TEST "
+	bash test_unserialize.sh
 
-
+	
 clean:
 	rm *.class
 

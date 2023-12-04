@@ -81,6 +81,13 @@ class DeSerial {
   public static void main(String[] args) throws FileNotFoundException, IOException, MalformedObjectNameException,  ClassNotFoundException  {
       System.out.println("Working on it ... "); 
 
+      boolean show_val = false;
+
+      for (String arg: args) {  
+        if (arg.contains("show")) {
+          show_val = true;
+        }
+    }
 
       ObjectInputStream ois;
       ois = new ObjectInputStream(new FileInputStream(args[0]));
@@ -90,8 +97,9 @@ class DeSerial {
       System.out.println("Read object :");
       System.out.println(obj);
 
-      System.out.println("----------\nObject Value(s):");
-      recur_print_object_field(obj, 0);
-
+      if ( show_val ) { 
+        System.out.println("----------\nObject Value(s):");
+        recur_print_object_field(obj, 0);
+      }
     }
 }

@@ -75,6 +75,7 @@ class EX implements Externalizable {
 
 // multiple properties
 class C004 implements Serializable {
+  public static final long serialVersionUID = 0x44332211;
   public int C04_f1;
   public int C04_f2;
   public int C04_f3;
