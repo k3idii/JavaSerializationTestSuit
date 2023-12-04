@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Base64;
-
+import java.io.Serializable; 
 import javax.management.MalformedObjectNameException;
 
 import java.lang.reflect.*;  
 
 
 class SomeSecretClass implements Serializable {
-  public Object magicField;
+  public Object username;
   public SomeSecretClass(){ 
-    this.magicField = "secretVallue1337"; 
+    this.username = "secretVallue1337"; 
   }
 }
 
@@ -31,13 +31,14 @@ class DeSerialThis {
 
       ObjectInputStream ois;
       ois = new ObjectInputStream(new FileInputStream(args[0]));
-      SomeSecretClass obj = ois.readObject();
+      Object obj = ois.readObject();
       ois.close();
+      SomeSecretClass o1 = (SomeSecretClass)obj;
 
       System.out.println("Read object :");
-      System.out.println(obj);
+      System.out.println(o1);
       System.out.println("Value :");
-      System.out.println(obj.magicField);
+      System.out.println(o1.username);
 
     }
 }

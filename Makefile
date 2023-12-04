@@ -21,11 +21,11 @@ test: ser
 	mkdir -p serial 
 	java -cp . Serialme 
 
-untest: unser
+untest: unser unserThis
 	@echo " >> MAKE UNSERIAL TEST "
 	bash test_unserialize.sh
 
-	
+
 clean:
 	rm *.class
 
