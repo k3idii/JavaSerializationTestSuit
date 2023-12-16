@@ -21,24 +21,25 @@ class SomeSecretClass implements Serializable {
   }
 }
 
-
 class DeSerialThis {
-  
-
   public static void main(String[] args) throws FileNotFoundException, IOException, MalformedObjectNameException,  ClassNotFoundException  {
       System.out.println("Working on it ... "); 
-
-
       ObjectInputStream ois;
       ois = new ObjectInputStream(new FileInputStream(args[0]));
       Object obj = ois.readObject();
       ois.close();
       SomeSecretClass o1 = (SomeSecretClass)obj;
-
       System.out.println("Read object :");
       System.out.println(o1);
       System.out.println("Value :");
       System.out.println(o1.username);
+      if (o1.username == "admin") {
+        System.out.println(" GOOD USERNAME. U CAN HAZ FLAG");
+      } else {
+        System.out.println("invalid USERNAME ");
+      }
 
     }
 }
+
+

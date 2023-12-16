@@ -121,12 +121,12 @@ class Serialme {
     
     serialize_to_file(
       "serial/str_test123.bin", 
-      new String("test123")
+      new String("a")
     );
     
     serialize_to_file(
       "serial/int_99.bin",
-      99
+      99   
     );
     
     serialize_to_file(
