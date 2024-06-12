@@ -95,6 +95,28 @@ class C004 implements Serializable {
 }
 
 
+class ObjWithManyFields implements Serializable {
+  public static final long serialVersionUID = 0x42;
+  public int OneIntField;
+  public String OneStrField;
+  public Object OneGenericObject;
+  public int[] ArrOfIntField;
+  public String[] ArrOfStrField;
+  public Object[] ArrOfObjects;
+  public ObjWithManyFields(){
+    this.OneIntField = 3333;
+    this.OneStrField = "foobarString1";
+    this.OneGenericObject = new C001(1);
+    this.ArrOfIntField = new int[3];
+    this.ArrOfIntField[1] = 0x1111;
+    this.ArrOfStrField = new String[3];
+    this.ArrOfStrField[1] = "second";
+    this.ArrOfObjects = new Object[3];
+    this.ArrOfObjects[1] = new C001("ObjectSecondField");
+  }
+}
+
+
 class Serialme {
 
 
@@ -137,6 +159,11 @@ class Serialme {
     serialize_to_file(
       "serial/child_obj3.bin", 
       new C003Child(0xaaaa,0xbbbb) 
+    );
+
+    serialize_to_file(
+      "serial/obj_many_fields.bin", 
+      new ObjWithManyFields() 
     );
 
     int i;
