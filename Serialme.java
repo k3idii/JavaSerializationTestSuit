@@ -46,9 +46,10 @@ class C003Child extends C002Base{
 
 class C009 implements Serializable {
   public int C009_Field1;
+  public String C009_str;
   public C009(){
     this.C009_Field1 = 123456;
-
+    this.C009_str = "foobar";
   }
 
   @java.io.Serial
