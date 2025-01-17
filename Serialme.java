@@ -27,10 +27,12 @@ class C001 implements Serializable {
 
 class C002Base implements Serializable { 
   public int C002intField1; 
-  public Object C002objField2;
+  public String C002_Field2;
+  public Object C002_Field3;
   public C002Base(int i){ 
     this.C002intField1 = i; 
-    this.C002objField2 = new String("stringFieldValue123");
+    this.C002_Field2 = new String("stringFieldValue123");
+    this.C002_Field3 = new C001(new String("Child obj01 String"));
   } 
 } 
 
@@ -41,6 +43,39 @@ class C003Child extends C002Base{
     this.C003intField1 = j;  
   } 
 } 
+
+class C009 implements Serializable {
+  public int C009_Field1;
+  public C009(){
+    this.C009_Field1 = 123456;
+
+  }
+
+  @java.io.Serial
+  private void readObject(ObjectInputStream s)  throws IOException, ClassNotFoundException {
+    System.out.println("> C009 > ReadObject ");
+    ObjectInputStream.GetField fields = s.readFields();
+    this.C009_Field1 = fields.get("C009_Field1", 42);
+
+    int x = s.readInt();
+    System.out.println(String.format(" Manually Read Value : %d ",x));
+    
+    System.out.println("< C009 ");
+  }
+
+  @java.io.Serial
+  private void writeObject(java.io.ObjectOutputStream s) throws IOException {
+      System.out.println("> C009 > WriteObject ");
+      s.defaultWriteObject();
+      s.writeInt(424242);
+      s.writeInt(0xff00ff00); 
+      System.out.println("< C009 ");
+  }
+
+
+}
+
+
 
 class EX implements Externalizable {
 
@@ -69,7 +104,7 @@ class EX implements Externalizable {
       this.code = in.readInt();
       this.obj1 = (C002Base)in.readObject();
       System.out.println("< CUSTOM READER END");
-      System.out.println("Value=" + obj1.C002objField2);
+      System.out.println("Value=" + obj1.C002_Field2);
   }
 }
 
@@ -157,8 +192,18 @@ class Serialme {
     );
 
     serialize_to_file(
+      "serial/obj_int_str_obj.bin",
+      (new C002Base(0x4444))
+		);
+
+    serialize_to_file(
       "serial/child_obj3.bin", 
       new C003Child(0xaaaa,0xbbbb) 
+    );
+
+    serialize_to_file(
+      "serial/obj_customReadWrite.bin", 
+      new C009() 
     );
 
     serialize_to_file(
