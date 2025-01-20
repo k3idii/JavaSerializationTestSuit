@@ -77,16 +77,31 @@ class DeSerial {
       }
     }
   }
+
+
+  static void break_here(){
+    return ;
+  }
   
-  public static void main(String[] args) throws FileNotFoundException, IOException, MalformedObjectNameException,  ClassNotFoundException  {
+  public static void main(String[] args) throws FileNotFoundException, IOException, MalformedObjectNameException,  ClassNotFoundException, InterruptedException  {
       System.out.println("Working on it ... "); 
 
       boolean show_val = false;
+      boolean wait = false;
 
       for (String arg: args) {  
         if (arg.contains("show")) {
           show_val = true;
         }
+        if (arg.contains("wait")) {
+          wait = true;
+        }
+    }
+
+    if (wait){
+      System.out.println("SLEEP 2000 > break_here > ");
+      Thread.sleep(2000);
+      break_here();
     }
 
       ObjectInputStream ois;
